@@ -55,3 +55,16 @@ How to compile & run:
 ```bash
 javac src/com/school/*.java
 java -cp src com.school.Main
+
+
+## Part-05 — Establishing Students, Teaching & Non-Teaching Staff hierarchy
+
+- Added `Person.java` (base class) with `id`, `name`, and a universal auto-ID generator.
+- Implemented `Student`, `Teacher`, and `Staff` classes that extend `Person`.
+- Each subclass overrides `displayDetails()` to print role-specific information.
+- `Main.java` demonstrates creation and display of Student, Teacher, and Staff objects and uses `student.getId()` in `AttendanceRecord`.
+
+How to compile & run:
+```bash
+javac src/com/school/*.java
+java -cp src com.school.Main

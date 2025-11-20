@@ -1,58 +1,59 @@
 package com.school;
 
 /**
- * Student model with encapsulation and auto ID generation.
+ * Student extends Person. Student has grade level, age and attendance percent.
  */
-public class Student {
-    private static int nextStudentIdCounter = 1;
-
-    private final int studentId;
-    private String name;
+public class Student extends Person {
+    private String gradeLevel;
     private int age;
     private double attendancePercent;
 
-    public Student(String name) {
-        this.studentId = nextStudentIdCounter++;
-        setName(name);
+    // Constructor with only name and grade
+    public Student(String name, String gradeLevel) {
+        super(name);
+        setGradeLevel(gradeLevel);
         this.age = 0;
         this.attendancePercent = 0.0;
     }
 
-    public Student(String name, int age, double attendancePercent) {
-        this.studentId = nextStudentIdCounter++;
-        setName(name);
+    // Constructor with name, grade, age and attendance
+    public Student(String name, String gradeLevel, int age, double attendancePercent) {
+        super(name);
+        setGradeLevel(gradeLevel);
         setAge(age);
         setAttendancePercent(attendancePercent);
     }
 
-    // Public getters (encapsulation)
-    public int getStudentId() { return studentId; }
-    public String getName() { return name; }
-    public int getAge() { return age; }
-    public double getAttendancePercent() { return attendancePercent; }
-
-    // Setters with validation
-    public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) throw new IllegalArgumentException("Name cannot be empty");
-        this.name = name.trim();
+    public String getGradeLevel() { return gradeLevel; }
+    public void setGradeLevel(String gradeLevel) {
+        if (gradeLevel == null || gradeLevel.trim().isEmpty()) gradeLevel = "N/A";
+        this.gradeLevel = gradeLevel.trim();
     }
+
+    public int getAge() { return age; }
     public void setAge(int age) {
         if (age < 3 || age > 120) throw new IllegalArgumentException("Invalid age");
         this.age = age;
     }
+
+    public double getAttendancePercent() { return attendancePercent; }
     public void setAttendancePercent(double attendancePercent) {
         if (attendancePercent < 0.0) attendancePercent = 0.0;
         if (attendancePercent > 100.0) attendancePercent = 100.0;
         this.attendancePercent = attendancePercent;
     }
 
-    public boolean isEligibleForCertificate() {
-        return this.attendancePercent >= 75.0;
+    // override displayDetails
+    @Override
+    public void displayDetails() {
+        super.displayDetails();
+        System.out.printf("  Role: Student, Grade: %s, Age: %d, Attendance: %.2f%%%n", gradeLevel, age, attendancePercent);
     }
 
+    // keep a compact toString if useful
     @Override
     public String toString() {
-        return String.format("Student{id='S%d', name='%s', age=%d, attendance=%.2f%%, eligible=%s}",
-                studentId, name, age, attendancePercent, isEligibleForCertificate() ? "YES" : "NO");
+        return String.format("Student{S%d, name='%s', grade='%s', age=%d, attendance=%.2f%%}",
+                id, name, gradeLevel, age, attendancePercent);
     }
 }
