@@ -1,11 +1,6 @@
 package com.school;
 
-/**
- * AttendanceRecord stores a student's attendance status for a course.
- * Valid statuses (case-insensitive): "Present", "Absent"
- * Any other value will be stored as "Invalid" and a warning will be printed.
- */
-public class AttendanceRecord {
+public class AttendanceRecord implements Storable {
     private final int studentId;
     private final int courseId;
     private final String status; // "Present", "Absent", or "Invalid"
@@ -30,13 +25,18 @@ public class AttendanceRecord {
         }
     }
 
-    // Getters
     public int getStudentId() { return studentId; }
     public int getCourseId() { return courseId; }
     public String getStatus() { return status; }
 
-    // Display the record in a readable format
     public void displayRecord() {
         System.out.printf("AttendanceRecord -> Student: S%d, Course: C%d, Status: %s%n", studentId, courseId, status);
+    }
+
+    // Storable implementation
+    @Override
+    public String toDataString() {
+        // studentId,courseId,status
+        return String.format("%d,%d,%s", getStudentId(), getCourseId(), getStatus());
     }
 }
