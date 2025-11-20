@@ -1,1 +1,2 @@
-101,Introduction to Programming
+1,Math,2
+2,Science,3

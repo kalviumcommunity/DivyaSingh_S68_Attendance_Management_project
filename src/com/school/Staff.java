@@ -1,7 +1,6 @@
 package com.school;
 
 public class Staff extends Person implements Storable {
-
     private String role;
 
     public Staff(String name, String role) {
@@ -9,10 +8,14 @@ public class Staff extends Person implements Storable {
         this.role = role;
     }
 
+    public String getRole() {
+        return role;
+    }
+
     @Override
     public void displayDetails() {
         super.displayDetails();
-        System.out.println("Staff Role: " + role);
+        System.out.println("Role: Staff | Position: " + role);
     }
 
     @Override

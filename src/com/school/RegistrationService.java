@@ -4,43 +4,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegistrationService {
+    private List<Student> students;
+    private List<Teacher> teachers;
+    private List<Staff> staffMembers;
+    private List<Course> courses;
+    private FileStorageService storageService;
 
-    private final List<Student> students;
-    private final List<Teacher> teachers;
-    private final List<Staff> staffMembers;
-    private final List<Course> courses;
-    private final FileStorageService storage;
-
-    public RegistrationService(FileStorageService storage) {
+    public RegistrationService(FileStorageService storageService) {
         this.students = new ArrayList<>();
         this.teachers = new ArrayList<>();
         this.staffMembers = new ArrayList<>();
         this.courses = new ArrayList<>();
-        this.storage = storage;
+        this.storageService = storageService;
     }
 
-    // Registration methods
-    public void registerStudent(Student student) { students.add(student); }
-    public void registerTeacher(Teacher teacher) { teachers.add(teacher); }
-    public void registerStaff(Staff staff) { staffMembers.add(staff); }
-    public void createCourse(Course course) { courses.add(course); }
-
-    // Getters
-    public List<Student> getStudents() { return students; }
-    public List<Teacher> getTeachers() { return teachers; }
-    public List<Staff> getStaffMembers() { return staffMembers; }
-    public List<Course> getCourses() { return courses; }
-
-    // Lookup by ID
-    public Student findStudentById(int id) {
-        return students.stream().filter(s -> s.getId() == id).findFirst().orElse(null);
+    public Student registerStudent(String name, String gradeLevel) {
+        Student s = new Student(name, gradeLevel);
+        students.add(s);
+        return s;
     }
 
-    public Course findCourseById(int id) {
-        return courses.stream().filter(c -> c.getCourseId() == id).findFirst().orElse(null);
+    public Teacher registerTeacher(String name, String subject) {
+        Teacher t = new Teacher(name, subject);
+        teachers.add(t);
+        return t;
     }
 
-    // Get all people
+    public Staff registerStaff(String name, String role) {
+        Staff s = new Staff(name, role);
+        staffMembers.add(s);
+        return s;
+    }
+
+    public Course createCourse(String courseName, int capacity) {
+        Course c = new Course(courseName, capacity);
+        courses.add(c);
+        return c;
+    }
+
+    public boolean enrollStudentInCourse(Student student, Course course) {
+        boolean success = course.addStudent(student);
+        if (success) {
+            System.out.println(student.getName() + " enrolled in " + course.getCourseName());
+        } else {
+            System.out.println("Cannot enroll " + student.getName() + " in " + course.getCourseName() + ". Capacity full!");
+        }
+        return success;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public List<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public List<Staff> getStaffMembers() {
+        return staffMembers;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
     public List<Person> getAllPeople() {
         List<Person> people = new ArrayList<>();
         people.addAll(students);
@@ -49,11 +76,18 @@ public class RegistrationService {
         return people;
     }
 
-    // Save all data
+    public Student findStudentById(int id) {
+        return students.stream().filter(s -> s.getId() == id).findFirst().orElse(null);
+    }
+
+    public Course findCourseById(int id) {
+        return courses.stream().filter(c -> c.getCourseId() == id).findFirst().orElse(null);
+    }
+
     public void saveAllRegistrations() {
-        storage.saveData(students, "students.txt");
-        storage.saveData(teachers, "teachers.txt");
-        storage.saveData(staffMembers, "staff.txt");
-        storage.saveData(courses, "courses.txt");
+        storageService.saveData(students, "students.txt");
+        storageService.saveData(teachers, "teachers.txt");
+        storageService.saveData(staffMembers, "staff.txt");
+        storageService.saveData(courses, "courses.txt");
     }
 }
