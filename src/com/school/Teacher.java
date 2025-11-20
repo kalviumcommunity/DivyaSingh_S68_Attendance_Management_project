@@ -1,30 +1,22 @@
 package com.school;
 
-/**
- * Teacher extends Person.
- */
-public class Teacher extends Person {
+public class Teacher extends Person implements Storable {
+
     private String subjectTaught;
 
     public Teacher(String name, String subjectTaught) {
         super(name);
-        setSubjectTaught(subjectTaught);
-    }
-
-    public String getSubjectTaught() { return subjectTaught; }
-    public void setSubjectTaught(String subjectTaught) {
-        if (subjectTaught == null || subjectTaught.trim().isEmpty()) subjectTaught = "General";
-        this.subjectTaught = subjectTaught.trim();
+        this.subjectTaught = subjectTaught;
     }
 
     @Override
     public void displayDetails() {
         super.displayDetails();
-        System.out.printf("  Role: Teacher, Subject: %s%n", subjectTaught);
+        System.out.println("Role: Teacher, Subject: " + subjectTaught);
     }
 
     @Override
-    public String toString() {
-        return String.format("Teacher{T%d, name='%s', subject='%s'}", id, name, subjectTaught);
+    public String toDataString() {
+        return getId() + "," + getName() + "," + subjectTaught;
     }
 }
