@@ -40,3 +40,18 @@ From project root:
 ```bash
 javac src/com/school/*.java
 java -cp src com.school.Main
+
+
+## Part-04 — Data Encapsulation & Attendance Recording Validation
+
+This part applies encapsulation to `Student` and `Course` (private fields + public getters)
+and adds `AttendanceRecord` to store attendance with validation.
+
+- `AttendanceRecord(int studentId, int courseId, String status)` validates `status`.
+  - Accepts "Present" or "Absent" (case-insensitive).
+  - Any other value becomes "Invalid" and prints a warning.
+
+How to compile & run:
+```bash
+javac src/com/school/*.java
+java -cp src com.school.Main
