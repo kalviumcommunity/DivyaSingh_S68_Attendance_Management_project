@@ -1,60 +1,58 @@
 package com.school;
 
-/**
- * Course model implements Storable
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Course implements Storable {
-    private static int nextCourseIdCounter = 101;
-
-    private final int courseId;
+    private static int nextCourseId = 1;
+    private int courseId;
     private String courseName;
-    private String instructor;
-    private int maxStudents;
+    private int capacity;
+    private List<Student> enrolledStudents;
 
-    public Course(String courseName) {
-        this.courseId = nextCourseIdCounter++;
-        setCourseName(courseName);
-        this.instructor = "TBD";
-        this.maxStudents = 1;
+    public Course(String courseName, int capacity) {
+        this.courseId = nextCourseId++;
+        this.courseName = courseName;
+        this.capacity = capacity;
+        this.enrolledStudents = new ArrayList<>();
     }
 
-    public Course(String courseName, String instructor, int maxStudents) {
-        this.courseId = nextCourseIdCounter++;
-        setCourseName(courseName);
-        setInstructor(instructor);
-        setMaxStudents(maxStudents);
+    public int getCourseId() {
+        return courseId;
     }
 
-    public int getCourseId() { return courseId; }
-    public String getCourseName() { return courseName; }
-    public String getInstructor() { return instructor; }
-    public int getMaxStudents() { return maxStudents; }
-
-    public void setCourseName(String courseName) {
-        if (courseName == null || courseName.trim().isEmpty()) throw new IllegalArgumentException("Course name cannot be empty");
-        this.courseName = courseName.trim();
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setInstructor(String instructor) {
-        if (instructor == null || instructor.trim().isEmpty()) this.instructor = "TBD";
-        else this.instructor = instructor.trim();
+    public int getCapacity() {
+        return capacity;
     }
 
-    public void setMaxStudents(int maxStudents) {
-        if (maxStudents < 1) throw new IllegalArgumentException("maxStudents must be >= 1");
-        this.maxStudents = maxStudents;
+    public List<Student> getEnrolledStudents() {
+        return enrolledStudents;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Course{code='C%d', name='%s', instructor='%s', maxStudents=%d}",
-                courseId, courseName, instructor, maxStudents);
+    public int getNumberOfEnrolledStudents() {
+        return enrolledStudents.size();
     }
 
-    // Storable implementation
+    public boolean addStudent(Student student) {
+        if (enrolledStudents.size() < capacity) {
+            enrolledStudents.add(student);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void displayDetails() {
+        System.out.println("Course ID: " + courseId + " | Name: " + courseName);
+        System.out.println("Capacity: " + capacity + " | Enrolled: " + getNumberOfEnrolledStudents());
+    }
+
     @Override
     public String toDataString() {
-        // courseId,courseName
-        return String.format("%d,%s", getCourseId(), getCourseName());
+        return courseId + "," + courseName + "," + capacity;
     }
 }
