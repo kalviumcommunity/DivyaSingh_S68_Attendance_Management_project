@@ -15,3 +15,12 @@ From project root:
 javac src/com/school/Student.java src/com/school/Main.java
 java -cp src com.school.Main
 
+
+## Part-02 — Core Domain Modelling
+
+This part introduces `Student` and `Course` domain classes and demonstrates managing them using arrays.
+
+### How to compile & run
+```bash
+javac src/com/school/*.java
+java -cp src com.school.Main
