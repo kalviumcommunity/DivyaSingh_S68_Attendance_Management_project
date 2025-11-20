@@ -2,49 +2,44 @@ package com.school;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Kalvium — Attendance Management (Part 02) : Core Domain Modelling\n");
+        System.out.println("Kalvium — Attendance Management (Part 03) : Constructor Initialization & Auto-ID\n");
 
-        // Create students
-        Student[] students = new Student[3];
-        students[0] = new Student("S001", "Alice Johnson", 20, 82.5);
-        students[1] = new Student("S002", "Bob Kumar", 19, 68.0);
-        students[2] = new Student("S003", "Clara Zhang", 21, 91.0);
+        // Create students using new constructor (auto-id)
+        Student s1 = new Student("Alice Johnson", 20, 82.5);
+        Student s2 = new Student("Bob Kumar", 19, 68.0);
+        Student s3 = new Student("Clara Zhang");
+        Student s4 = new Student("Daniel Lee", 22, 74.9);
+        Student s5 = new Student("Esha Patel", 18, 95.0);
 
-        // Create courses
-        Course[] courses = new Course[2];
-        courses[0] = new Course("C101", "Introduction to Programming", "Dr. Mehta", 50);
-        courses[1] = new Course("C102", "Data Structures", "Prof. Rao", 40);
+        Student[] students = new Student[] { s1, s2, s3, s4, s5 };
 
-        // Display students
-        System.out.println("Students enrolled:");
+        // Create courses using new constructor (auto-id starting 101)
+        Course c1 = new Course("Introduction to Programming", "Dr. Mehta", 50);
+        Course c2 = new Course("Data Structures", "Prof. Rao", 40);
+        Course c3 = new Course("Algorithms"); // instructor = TBD
+
+        Course[] courses = new Course[] { c1, c2, c3 };
+
+        // Display students to show auto-generated IDs
+        System.out.println("Students:");
         for (Student s : students) {
             System.out.println("  " + s);
         }
 
-        // Display courses
-        System.out.println("\nAvailable courses:");
+        // Display courses to show auto-generated course IDs prefixed with C
+        System.out.println("\nCourses:");
         for (Course c : courses) {
             System.out.println("  " + c);
         }
 
-        // Example: simple mapping logic (student -> course index) using arrays
-        int[][] enrollments = new int[students.length][]; // store enrolled course indices per student
-        enrollments[0] = new int[]{0, 1}; // Alice enrolled in both courses
-        enrollments[1] = new int[]{1};    // Bob enrolled in Data Structures
-        enrollments[2] = new int[]{0};    // Clara enrolled in Intro
+        // Small demonstration: create one more student and course to show counters increment
+        Student extraStudent = new Student("Farah Khan");
+        Course extraCourse = new Course("Database Systems", "Dr. Singh", 45);
 
-        System.out.println("\nEnrollments:");
-        for (int i = 0; i < students.length; i++) {
-            System.out.print("  " + students[i].getName() + " -> ");
-            int[] list = enrollments[i];
-            for (int j = 0; j < list.length; j++) {
-                int courseIndex = list[j];
-                System.out.print(courses[courseIndex].getCode());
-                if (j < list.length - 1) System.out.print(", ");
-            }
-            System.out.println();
-        }
+        System.out.println("\nAfter creating additional instances:");
+        System.out.println("  " + extraStudent);
+        System.out.println("  " + extraCourse);
 
-        System.out.println("\nPart-02 complete. Follow git steps to push changes to part-02 branch.");
+        System.out.println("\nPart-03 complete. Verify auto ID generation above (students S1.., courses C101..).");
     }
 }

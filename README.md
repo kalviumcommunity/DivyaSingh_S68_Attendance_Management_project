@@ -24,3 +24,19 @@ This part introduces `Student` and `Course` domain classes and demonstrates mana
 ```bash
 javac src/com/school/*.java
 java -cp src com.school.Main
+
+
+## Part-03 — Constructor Initialization & Auto-ID Generation
+
+This part implements constructors for `Student` and `Course` and adds automatic unique ID generation using static counters.
+
+### What changed
+- `Student` now auto-generates integer IDs (studentId) using `nextStudentIdCounter` and constructors `Student(String name)` and `Student(String name, int age, double attendancePercent)`.
+- `Course` now auto-generates integer IDs (courseId) starting at 101 using `nextCourseIdCounter` and constructors `Course(String courseName)` and `Course(String courseName, String instructor, int maxStudents)`.
+- `Course` `toString()` prints the id prefixed with `C` (e.g., `C101`).
+
+### How to compile & run
+From project root:
+```bash
+javac src/com/school/*.java
+java -cp src com.school.Main
