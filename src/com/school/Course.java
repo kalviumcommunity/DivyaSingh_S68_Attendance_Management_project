@@ -1,9 +1,9 @@
 package com.school;
 
 /**
- * Course model with encapsulation and auto ID generation.
+ * Course model implements Storable
  */
-public class Course {
+public class Course implements Storable {
     private static int nextCourseIdCounter = 101;
 
     private final int courseId;
@@ -25,21 +25,21 @@ public class Course {
         setMaxStudents(maxStudents);
     }
 
-    // Public getters (encapsulation)
     public int getCourseId() { return courseId; }
     public String getCourseName() { return courseName; }
     public String getInstructor() { return instructor; }
     public int getMaxStudents() { return maxStudents; }
 
-    // Setters with validation
     public void setCourseName(String courseName) {
         if (courseName == null || courseName.trim().isEmpty()) throw new IllegalArgumentException("Course name cannot be empty");
         this.courseName = courseName.trim();
     }
+
     public void setInstructor(String instructor) {
         if (instructor == null || instructor.trim().isEmpty()) this.instructor = "TBD";
         else this.instructor = instructor.trim();
     }
+
     public void setMaxStudents(int maxStudents) {
         if (maxStudents < 1) throw new IllegalArgumentException("maxStudents must be >= 1");
         this.maxStudents = maxStudents;
@@ -49,5 +49,12 @@ public class Course {
     public String toString() {
         return String.format("Course{code='C%d', name='%s', instructor='%s', maxStudents=%d}",
                 courseId, courseName, instructor, maxStudents);
+    }
+
+    // Storable implementation
+    @Override
+    public String toDataString() {
+        // courseId,courseName
+        return String.format("%d,%s", getCourseId(), getCourseName());
     }
 }

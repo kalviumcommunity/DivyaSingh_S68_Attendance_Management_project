@@ -1,14 +1,13 @@
 package com.school;
 
 /**
- * Student extends Person. Student has grade level, age and attendance percent.
+ * Student extends Person and is storable.
  */
-public class Student extends Person {
+public class Student extends Person implements Storable {
     private String gradeLevel;
     private int age;
     private double attendancePercent;
 
-    // Constructor with only name and grade
     public Student(String name, String gradeLevel) {
         super(name);
         setGradeLevel(gradeLevel);
@@ -16,7 +15,6 @@ public class Student extends Person {
         this.attendancePercent = 0.0;
     }
 
-    // Constructor with name, grade, age and attendance
     public Student(String name, String gradeLevel, int age, double attendancePercent) {
         super(name);
         setGradeLevel(gradeLevel);
@@ -43,17 +41,23 @@ public class Student extends Person {
         this.attendancePercent = attendancePercent;
     }
 
-    // override displayDetails
     @Override
     public void displayDetails() {
         super.displayDetails();
-        System.out.printf("  Role: Student, Grade: %s, Age: %d, Attendance: %.2f%%%n", gradeLevel, age, attendancePercent);
+        System.out.printf("  Role: Student, Grade: %s, Age: %d, Attendance: %.2f%%%n",
+                gradeLevel, age, attendancePercent);
     }
 
-    // keep a compact toString if useful
     @Override
     public String toString() {
         return String.format("Student{S%d, name='%s', grade='%s', age=%d, attendance=%.2f%%}",
                 id, name, gradeLevel, age, attendancePercent);
+    }
+
+    // Storable implementation
+    @Override
+    public String toDataString() {
+        // id,name,gradeLevel
+        return String.format("%d,%s,%s", getId(), getName(), getGradeLevel());
     }
 }
