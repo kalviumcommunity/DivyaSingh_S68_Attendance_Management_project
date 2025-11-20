@@ -6,47 +6,33 @@ import java.util.List;
 public class AttendanceService {
 
     private final List<AttendanceRecord> attendanceLog;
-    private final FileStorageService storageService;
+    private final FileStorageService storage;
+    private final RegistrationService registrationService;
 
-    // Constructor
-    public AttendanceService(FileStorageService storageService) {
+    public AttendanceService(FileStorageService storage, RegistrationService registrationService) {
         this.attendanceLog = new ArrayList<>();
-        this.storageService = storageService;
+        this.storage = storage;
+        this.registrationService = registrationService;
     }
 
-    // Overloaded markAttendance using actual objects
+    // Mark attendance using objects
     public void markAttendance(Student student, Course course, String status) {
         AttendanceRecord record = new AttendanceRecord(student, course, status);
         attendanceLog.add(record);
     }
 
-    // Overloaded markAttendance using IDs
-    public void markAttendance(int studentId, int courseId, String status, List<Student> allStudents, List<Course> allCourses) {
-        Student student = findStudentById(studentId, allStudents);
-        Course course = findCourseById(courseId, allCourses);
+    // Mark attendance using IDs, use registrationService for lookups
+    public void markAttendance(int studentId, int courseId, String status) {
+        Student student = registrationService.findStudentById(studentId);
+        Course course = registrationService.findCourseById(courseId);
         if (student != null && course != null) {
             markAttendance(student, course, status);
         } else {
-            System.err.println("[WARNING] Unable to mark attendance: Invalid Student ID or Course ID.");
+            System.err.println("[WARNING] Invalid student or course ID.");
         }
     }
 
-    // Helper methods to find Student or Course by ID
-    private Student findStudentById(int id, List<Student> students) {
-        for (Student s : students) {
-            if (s.getId() == id) return s;
-        }
-        return null;
-    }
-
-    private Course findCourseById(int id, List<Course> courses) {
-        for (Course c : courses) {
-            if (c.getCourseId() == id) return c;
-        }
-        return null;
-    }
-
-    // Overloaded displayAttendanceLog methods
+    // Display attendance
     public void displayAttendanceLog() {
         System.out.println("\n--- Full Attendance Log ---");
         for (AttendanceRecord r : attendanceLog) r.displayRecord();
@@ -66,8 +52,8 @@ public class AttendanceService {
         }
     }
 
-    // Save attendance log to file
+    // Save attendance
     public void saveAttendanceData() {
-        storageService.saveData(attendanceLog, "attendance_log.txt");
+        storage.saveData(attendanceLog, "attendance_log.txt");
     }
 }
